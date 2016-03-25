@@ -167,6 +167,39 @@ ifdef WITH_ZLIB
 LDFLAGS += -lz
 endif
 
+MICRO_INI_SRCS :=
+MICRO_INI_SRCS += _build/lib-MicroIni/src/MicroIni/File.cpp
+MICRO_INI_SRCS += _build/lib-MicroIni/src/MicroIni/Line.cpp
+MICRO_INI_SRCS += _build/lib-MicroIni/src/MicroIni/Section.cpp
+MICRO_INI_SRCS += _build/lib-MicroIni/src/MicroIni/Value.cpp
+
+BOOST_SRCS :=
+BOOST_SRCS += _build/lib-boost/libs/system/src/error_code.cpp
+BOOST_SRCS += _build/lib-boost/libs/filesystem/src/codecvt_error_category.cpp
+BOOST_SRCS += _build/lib-boost/libs/filesystem/src/operations.cpp
+BOOST_SRCS += _build/lib-boost/libs/filesystem/src/path.cpp
+BOOST_SRCS += _build/lib-boost/libs/filesystem/src/path_traits.cpp
+BOOST_SRCS += _build/lib-boost/libs/filesystem/src/portability.cpp
+BOOST_SRCS += _build/lib-boost/libs/filesystem/src/unique_path.cpp
+BOOST_SRCS += _build/lib-boost/libs/filesystem/src/utf8_codecvt_facet.cpp
+BOOST_SRCS += _build/lib-boost/libs/filesystem/src/windows_file_codecvt.cpp
+
+SLOG_SRCS := _build/lib-slog/slog/slog.c
+
+SMACKER_SRCS :=
+SMACKER_SRCS += _build/lib-smacker/libsmacker/smacker.c
+SMACKER_SRCS += _build/lib-smacker/libsmacker/smk_hufftree.c
+SMACKER_SRCS += _build/lib-smacker/libsmacker/smk_bitstream.c
+
+GTEST_SRCS :=
+GTEST_SRCS += _build/lib-gtest/src/gtest.cc
+GTEST_SRCS += _build/lib-gtest/src/gtest-death-test.cc
+GTEST_SRCS += _build/lib-gtest/src/gtest-filepath.cc
+GTEST_SRCS += _build/lib-gtest/src/gtest-port.cc
+GTEST_SRCS += _build/lib-gtest/src/gtest-printers.cc
+GTEST_SRCS += _build/lib-gtest/src/gtest-test-part.cc
+GTEST_SRCS += _build/lib-gtest/src/gtest-typed-test.cc
+
 SRCS :=
 SRCS += Build/AniViewScreen.cc
 SRCS += Build/Credits.cc
@@ -519,28 +552,10 @@ SRCS += src/internals/enums.cc
 SRCS += src/policy/DefaultGamePolicy.cc
 SRCS += src/policy/DefaultIMPPolicy.cc
 
-MICRO_INI_SRCS :=
-MICRO_INI_SRCS += _build/lib-MicroIni/src/MicroIni/File.cpp
-MICRO_INI_SRCS += _build/lib-MicroIni/src/MicroIni/Line.cpp
-MICRO_INI_SRCS += _build/lib-MicroIni/src/MicroIni/Section.cpp
-MICRO_INI_SRCS += _build/lib-MicroIni/src/MicroIni/Value.cpp
 SRCS += $(MICRO_INI_SRCS)
-
-SRCS += _build/lib-boost/libs/system/src/error_code.cpp
-SRCS += _build/lib-boost/libs/filesystem/src/codecvt_error_category.cpp
-SRCS += _build/lib-boost/libs/filesystem/src/operations.cpp
-SRCS += _build/lib-boost/libs/filesystem/src/path.cpp
-SRCS += _build/lib-boost/libs/filesystem/src/path_traits.cpp
-SRCS += _build/lib-boost/libs/filesystem/src/portability.cpp
-SRCS += _build/lib-boost/libs/filesystem/src/unique_path.cpp
-SRCS += _build/lib-boost/libs/filesystem/src/utf8_codecvt_facet.cpp
-SRCS += _build/lib-boost/libs/filesystem/src/windows_file_codecvt.cpp
-
-SRCS += _build/lib-slog/slog/slog.c
-
-SRCS += _build/lib-smacker/libsmacker/smacker.c
-SRCS += _build/lib-smacker/libsmacker/smk_hufftree.c
-SRCS += _build/lib-smacker/libsmacker/smk_bitstream.c
+SRCS += $(BOOST_SRCS)
+SRCS += $(SLOG_SRCS)
+SRCS += $(SMACKER_SRCS)
 
 LNGS :=
 LNGS += Build/Utils/_DutchText.cc
@@ -557,13 +572,7 @@ ifeq "$(WITH_UNITTESTS)" "1"
 CFLAGS += -D WITH_UNITTESTS
 CFLAGS += -I _build/lib-gtest/include
 CFLAGS += -I _build/lib-gtest
-SRCS += _build/lib-gtest/src/gtest.cc
-SRCS += _build/lib-gtest/src/gtest-death-test.cc
-SRCS += _build/lib-gtest/src/gtest-filepath.cc
-SRCS += _build/lib-gtest/src/gtest-port.cc
-SRCS += _build/lib-gtest/src/gtest-printers.cc
-SRCS += _build/lib-gtest/src/gtest-test-part.cc
-SRCS += _build/lib-gtest/src/gtest-typed-test.cc
+SRCS += $(GTEST_SRCS)
 SRCS += Build/SaveLoadGame_unittest.cc
 SRCS += Build/Tactical/LoadSaveMercProfile_unittest.cc
 SRCS += Build/VanillaDataStructures_unittest.cc
@@ -590,7 +599,13 @@ FLUID_SRCS += src/launcher/StracciatellaLauncher.cxx
 
 LAUNCHER_SRCS :=
 LAUNCHER_SRCS += $(MICRO_INI_SRCS)
+LAUNCHER_SRCS += $(BOOST_SRCS)
+LAUNCHER_SRCS += $(SLOG_SRCS)
+LAUNCHER_SRCS += $(GTEST_SRCS)
 LAUNCHER_SRCS += $(FLUID_SRCS)
+LAUNCHER_SRCS += sgp/MemMan.cc
+LAUNCHER_SRCS += sgp/LibraryDataBase.cc
+LAUNCHER_SRCS += sgp/FileMan.cc
 LAUNCHER_SRCS += src/launcher/Launcher.cc
 LAUNCHER_SRCS += src/launcher/main.cc
 
